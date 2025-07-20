@@ -210,7 +210,7 @@ def clear_inputs():
     st.rerun()
 
 def main():
-    st.set_page_config(page_title="정산 시스템 v4", layout="wide")
+    st.set_page_config(page_title="정산 시스템", layout="wide")
     
     # DB에서 거래 내역 로드
     if not st.session_state.transactions:
@@ -402,7 +402,7 @@ def main():
     </style>
     """, unsafe_allow_html=True)
     
-    st.markdown('<h1 class="main-header">💰 정산 시스템 v4</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">💰 정산 시스템</h1>', unsafe_allow_html=True)
     
     # 탭 생성
     tab1, tab2, tab3 = st.tabs(["📝 거래 입력", "🧮 정산 결과", "📚 정산 기록"])

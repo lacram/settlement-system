@@ -724,31 +724,6 @@ def main():
             
             for settlement in settlements:
                 with st.expander(f"📅 {settlement['date']} - {settlement['name']} ({int(settlement['total_amount']):,}원)"):
-                    # 삭제 확인 버튼 추가
-                    delete_key = f"delete_settlement_{settlement['id']}"
-                    confirm_key = f"confirm_delete_settlement_{settlement['id']}"
-                    
-                    # 삭제 확인 상태 확인
-                    if st.session_state.get(confirm_key, False):
-                        st.warning(f"⚠️ 정말 '{settlement['name']}' 정산 기록을 삭제하시겠습니까?")
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            if st.button("✅ 확인", key=f"confirm_{settlement['id']}", use_container_width=True):
-                                delete_settlement_from_db(settlement['id'])
-                                st.success(f"정산 기록이 삭제되었습니다: {settlement['name']}")
-                                # 확인 상태 초기화
-                                st.session_state[confirm_key] = False
-                                st.rerun()
-                        with col2:
-                            if st.button("❌ 취소", key=f"cancel_{settlement['id']}", use_container_width=True):
-                                # 확인 상태 초기화
-                                st.session_state[confirm_key] = False
-                                st.rerun()
-                    else:
-                        if st.button(f"🗑️ 삭제", key=delete_key, use_container_width=True):
-                            # 삭제 확인 상태 활성화
-                            st.session_state[confirm_key] = True
-                            st.rerun()
                     
                     # 정산 요약 정보
                     col1, col2 = st.columns(2)
@@ -805,6 +780,32 @@ def main():
                             for j, img_path in enumerate(image_paths[i:i+3]):
                                 with cols[j]:
                                     st.image(img_path, use_container_width=True)
+
+                    # 삭제 확인 버튼 추가
+                    delete_key = f"delete_settlement_{settlement['id']}"
+                    confirm_key = f"confirm_delete_settlement_{settlement['id']}"
+                    
+                    # 삭제 확인 상태 확인
+                    if st.session_state.get(confirm_key, False):
+                        st.warning(f"⚠️ 정말 '{settlement['name']}' 정산 기록을 삭제하시겠습니까?")
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            if st.button("✅ 확인", key=f"confirm_{settlement['id']}", use_container_width=True):
+                                delete_settlement_from_db(settlement['id'])
+                                st.success(f"정산 기록이 삭제되었습니다: {settlement['name']}")
+                                # 확인 상태 초기화
+                                st.session_state[confirm_key] = False
+                                st.rerun()
+                        with col2:
+                            if st.button("❌ 취소", key=f"cancel_{settlement['id']}", use_container_width=True):
+                                # 확인 상태 초기화
+                                st.session_state[confirm_key] = False
+                                st.rerun()
+                    else:
+                        if st.button(f"🗑️ 삭제", key=delete_key, use_container_width=True):
+                            # 삭제 확인 상태 활성화
+                            st.session_state[confirm_key] = True
+                            st.rerun()
 
 
 if __name__ == "__main__":

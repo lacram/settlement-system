@@ -724,9 +724,6 @@ def main():
             
             for settlement in settlements:
                 with st.expander(f"📅 {settlement['date']} - {settlement['name']} ({int(settlement['total_amount']):,}원)"):
-                    # 이미지가 있으면 표시
-                    if settlement.get('image_path') and os.path.exists(settlement['image_path']):
-                        st.image(settlement['image_path'], caption="첨부된 사진", use_container_width=True)
                     # 삭제 확인 버튼 추가
                     delete_key = f"delete_settlement_{settlement['id']}"
                     confirm_key = f"confirm_delete_settlement_{settlement['id']}"

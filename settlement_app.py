@@ -632,9 +632,7 @@ def main():
                 if settlement_images:
                     for img in settlement_images:
                         ext = os.path.splitext(img.name)[-1]
-                        safe_name = f"settlement_{settlement_name}_{settlement_date.strftime('%Y%m%d')}_{uuid.uuid4().hex}{ext}"
-                        img_path = os.path.join("uploads", safe_name)
-                        os.makedirs("uploads", exist_ok=True) # uploads 폴더가 없으면 생성
+                        img_path = f"settlement_{settlement_name}_{settlement_date.strftime('%Y%m%d')}_{uuid.uuid4().hex}{ext}"
                         with open(img_path, "wb") as f:
                             f.write(img.read())
                         image_paths.append(img_path)

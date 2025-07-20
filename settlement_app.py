@@ -722,7 +722,7 @@ def main():
         else:
             st.subheader("📋 저장된 정산 목록")
             
-            for settlement in settlements:
+            for i, settlement in enumerate(settlements):
                 with st.expander(f"📅 {settlement['date']} - {settlement['name']} ({int(settlement['total_amount']):,}원)"):
                     
                     # 정산 요약 정보
@@ -732,6 +732,24 @@ def main():
                     with col2:
                         st.markdown(f'<div class="metric-card"><h4>참여자 수</h4><h2>{settlement["member_count"]}명</h2></div>', unsafe_allow_html=True)
                     
+                    # 정산 요약 카드 UI (정산 결과 탭과 동일)
+                    summary_data = []
+                    for member, data in settlement['settlement_data'].items():
+                        summary_data.append({
+                            "참여자": member,
+                            "총 지출": f"{int(data['settlement_amount']):,}원"
+                        })
+                    if summary_data:
+                        cols = st.columns(min(4, len(summary_data)))
+                        for idx, row in enumerate(summary_data):
+                            with cols[idx % len(cols)]:
+                                st.markdown(f'''
+                                <div style="background: linear-gradient(135deg, #f0f2f6 0%, #d9e7fa 100%); padding: 1.3rem 1.1rem; border-radius: 16px; box-shadow: 0 4px 16px rgba(102,126,234,0.10); margin: 0.8rem 0; text-align: center; transition: box-shadow 0.2s;">
+                                    <div style="font-size:1.15em; font-weight:600; color:#1f77b4; margin-bottom:0.6rem; letter-spacing:0.5px;">👤 {row['참여자']}</div>
+                                    <div style="font-size:1.7em; font-weight:bold; color:#222; letter-spacing:1px;">{row['총 지출']}</div>
+                                </div>
+                                ''', unsafe_allow_html=True)
+                    # 참여자별 정산 바로 위에 위치
                     # 참여자별 정산 내역
                     st.subheader("👥 참여자별 정산")
                     
